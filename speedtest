@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# vim:shiftwidth=3:softtabstop=3:autoindent:smartindent:cindent:incsearch:ignorecase:noexpandtab
+# vim:shiftwidth=4:tabstop=4:softtabstop=4:autoindent:smartindent:cindent:incsearch:ignorecase:noexpandtab
 
 # speedtest - test network speed using speedtest.net
 # (m)'15 [2015-03-27] Copyright H.M.Brand 2014-2015
@@ -317,21 +317,20 @@ foreach my $host (@hosts) {
 	$dl = sprintf "%8.3f", 8 * ($size / $time) / $k / $k;
    if ($opt_C) {
 	    my @d = localtime;
-	    # stamp,id,ping,tests,direction,speed)
-       unless ( $header_printed ) {
-			 print "#date,time,tstamp,server-id,sponsor,nane,distance(km),ip,url,ping(ms),no-of-tests,direction,speed,min,max(all in Mbit/s)\n";
-			 $header_printed = 1;
-	    }
+	    unless ( $header_printed ) {
+	        print "#date,time,tstamp,server-id,sponsor,name,distance(km),ip,ping(ms),url,no-of-tests,direction,speed,min,max(all in Mbit/s)\n";
+	        $header_printed = 1;
+	        }
 	    (my $h =  $host->{url}) =~ s{^\w+://([^/]+)(?:/.*)?$}{$1};
 	    my @ad = gethostbyname ($h);
 	    my $s = "";
 	    $s = join " " => "", map { inet_ntoa ($_) } @ad[4 .. $#ad];
 	    $s =~ s/^\s+//;
-	    printf qq{%4d-%02d-%02d,%02d:%02d:%02d,%d,%d,%s,%s,%d,%s,%s,%.2f,%d,D,%.2f,%.2f,%.2f\r\n},
-		 $d[5] + 1900, ++$d[4], @d[3,2,1,0], time(),
-		 $host->{id}, $host->{sponsor}, $host->{name}, $host->{dist}, $s, $host->{url}, $host->{ping},
-		 scalar @url, $dl, @mnmx;
-		 #print "\n\n"; print Dumper ($host);
+	    printf qq{%4d-%02d-%02d,%02d:%02d:%02d,%d,%d,%s,%s,%d,%s,%s,%.2f,%d,D,%.2f,%.2f,%.2f\n},
+	    $d[5] + 1900, ++$d[4], @d[3,2,1,0], time(),
+	    $host->{id}, $host->{sponsor}, $host->{name}, $host->{dist}, $s, $host->{url}, $host->{ping},
+	    scalar @url, $dl, @mnmx;
+	    #print "\n\n"; print Dumper ($host);
 	    }
 	else {
 	    $opt_q &&  $opt_v and print " " x (40 - $opt_q);
@@ -377,19 +376,19 @@ foreach my $host (@hosts) {
 	if ($opt_C) {
 	    my @d = localtime;
 	    # stamp,id,ping,tests,direction,speed)
-		 if ( ! $header_printed ) {
-			 print "#date,time,tstamp,server-id,sponsor,nane,distance(km),ip,url,ping(ms),no-of-tests,direction,speed,min,max(all in Mbit/s)\n";
-			 $header_printed = 1;
-	    }
+        if ( ! $header_printed ) {
+		    print "#date,time,tstamp,server-id,sponsor,name,distance(km),ip,ping(ms),url,no-of-tests,direction,speed,min,max(all in Mbit/s)\n";
+		    $header_printed = 1;
+	        }
 	    (my $h =  $host->{url}) =~ s{^\w+://([^/]+)(?:/.*)?$}{$1};
 	    my @ad = gethostbyname ($h);
 	    my $s = "";
 	    $s = join " " => "", map { inet_ntoa ($_) } @ad[4 .. $#ad];
 	    $s =~ s/^\s+//;
-	    printf qq{%4d-%02d-%02d,%02d:%02d:%02d,%d,%d,%s,%s,%d,%s,%s,%.2f,%d,U,%.2f,%.2f,%.2f\r\n},
-		 $d[5] + 1900, ++$d[4], @d[3,2,1,0], time(),
-		 $host->{id}, $host->{sponsor}, $host->{name}, $host->{dist}, $s, $host->{url}, $host->{ping},
-		 scalar @size, $ul, @mnmx;
+	    printf qq{%4d-%02d-%02d,%02d:%02d:%02d,%d,%d,%s,%s,%d,%s,%s,%.2f,%d,U,%.2f,%.2f,%.2f\n},
+		$d[5] + 1900, ++$d[4], @d[3,2,1,0], time(),
+		$host->{id}, $host->{sponsor}, $host->{name}, $host->{dist}, $s, $host->{url}, $host->{ping},
+		scalar @size, $ul, @mnmx;
 	    }
 	else {
 	    $opt_q &&  $opt_v and print " " x (40 - $opt_q);
